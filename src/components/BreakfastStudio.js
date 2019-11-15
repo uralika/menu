@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Foods from "./Foods";
 import Nav from "./Nav";
 import { MENU } from "../kitchen";
@@ -9,8 +9,32 @@ class BreakfastStudio extends React.Component {
 
 		this.state = {
 			foods: MENU,
-			checkout: 0
+			checkout: 0,
+			filter: 'Food Groups'
 		}
+
+		this.handleFilterSelect = this.handleFilterSelect.bind(this);
+		this.filter = this.filter.bind(this);
+	}
+
+	handleFilterSelect(event) {
+		this.setState({filter: event.target.value});
+	}
+
+	filter(food) {
+		if (this.state.filter === 'Food Groups') {
+			return food;
+		}
+
+		const tag = this.state.filter.toLowerCase();
+
+		return food.reduce( (acc, curr, index) => {
+			if (curr.groups.includes(tag)) {
+				acc.push(curr);
+			}
+
+			return acc;
+		}, []);
 	}
 
 	render() {
@@ -25,9 +49,9 @@ class BreakfastStudio extends React.Component {
 					<h1 className="text-2xl md:text-4xl lg:text-5xl text-center my-4 font-black">
 						<span className="concert-underline">Concert Breakfast Studio</span>
 					</h1>
-					<Nav />
-					<Foods foods = { this.state.foods } />
-					<Nav />
+					<Nav handleFilterSelect={ this.handleFilterSelect } selectedValue={this.state.filter} />
+					<Foods foods={ this.filter(this.state.foods) } />
+					<Nav handleFilterSelect={ this.handleFilterSelect } selectedValue={ this.state.filter } />
 				</div>
 			</div>
 		);

@@ -5,16 +5,8 @@ import { MENU } from "../kitchen";
 class Filter extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			value: ''
-		}
 
-		this.handleChange = this.handleChange.bind(this);
 		this.getCategories = this.getCategories.bind(this);
-	}
-
-	handleChange(event) {
-		this.setState({value: event.target.value});
 	}
 
 	getCategories() {
@@ -37,7 +29,7 @@ class Filter extends React.Component {
 
 	render() {
 		return (
-			<select value={this.state.value} onChange={this.handleChange}
+			<select value={this.props.filter} onChange={this.props.handleFilterSelect}
 				className="mb-2 md:ml-2 md:mb-0">
 				{this.getCategories().map((cat, i) => <option key={i}>{cat}</option>)};
 			</select>
