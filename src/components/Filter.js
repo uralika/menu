@@ -29,7 +29,7 @@ class Filter extends React.Component {
 
 	render() {
 		return (
-			<select value={this.props.filter} onChange={this.props.handleFilterSelect}
+			<select value={ this.props.filter } onChange={ this.props.handleFilterSelect }
 				className="mb-2 md:ml-2 md:mb-0">
 				{this.getCategories().map((cat, i) => <option key={i}>{cat}</option>)};
 			</select>

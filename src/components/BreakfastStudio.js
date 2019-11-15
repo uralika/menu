@@ -10,31 +10,57 @@ class BreakfastStudio extends React.Component {
 		this.state = {
 			foods: MENU,
 			checkout: 0,
-			filter: 'Food Groups'
+			filter: 'Food Groups',
+			search: ''
 		}
 
 		this.handleFilterSelect = this.handleFilterSelect.bind(this);
 		this.filter = this.filter.bind(this);
+		this.handleSearch = this.handleSearch.bind(this);
 	}
 
 	handleFilterSelect(event) {
 		this.setState({filter: event.target.value});
 	}
 
+	handleSearch(event) {
+		this.setState({search: event.target.value})
+	}
+
 	filter(food) {
-		if (this.state.filter === 'Food Groups') {
+		let filteredFood;
+
+		if (!this.state.search.length && this.state.filter === 'Food Groups') {
 			return food;
 		}
 
-		const tag = this.state.filter.toLowerCase();
+		if (this.state.search.length) {
+			const search = this.state.search.trim().toLowerCase();
 
-		return food.reduce( (acc, curr, index) => {
-			if (curr.groups.includes(tag)) {
-				acc.push(curr);
-			}
+			filteredFood = food.reduce((acc, curr, index) => {
+				if (curr.name.toLowerCase().includes(search)) {
+					acc.push(curr);
+				}
 
-			return acc;
-		}, []);
+				return acc;
+			}, []);
+		} else {
+			filteredFood = food;
+		}
+
+		if (this.state.filter !== 'Food Groups') {
+			const tag = this.state.filter.toLowerCase();
+
+			filteredFood = filteredFood.reduce( (acc, curr, index) => {
+				if (curr.groups.includes(tag)) {
+					acc.push(curr);
+				}
+
+				return acc;
+			}, []);
+		}
+
+		return filteredFood;
 	}
 
 	render() {
@@ -49,9 +75,17 @@ class BreakfastStudio extends React.Component {
 					<h1 className="text-2xl md:text-4xl lg:text-5xl text-center my-4 font-black">
 						<span className="concert-underline">Concert Breakfast Studio</span>
 					</h1>
-					<Nav handleFilterSelect={ this.handleFilterSelect } selectedValue={this.state.filter} />
+					<Nav
+						handleFilterSelect={ this.handleFilterSelect }
+						selectedValue={this.state.filter}
+						handleSearch={ this.handleSearch }
+					/>
 					<Foods foods={ this.filter(this.state.foods) } />
-					<Nav handleFilterSelect={ this.handleFilterSelect } selectedValue={ this.state.filter } />
+					<Nav
+						handleFilterSelect={ this.handleFilterSelect }
+						selectedValue={ this.state.filter }
+						handleSearch={ this.handleSearch }
+					/>
 				</div>
 			</div>
 		);
