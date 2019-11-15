@@ -5,8 +5,13 @@ export default function Foods(props) {
 	return (
 		<div className="grid mb-8">
 			{ props.foods.map( food => (
-				<Food key={ food.id } food={ food } />
+				<Food
+					key={ food.id }
+					food={ food }
+					handleAddItem={ props.handleAddItem }
+					handleRemoveItem={ props.handleRemoveItem }
+				/>
 			))}
-	</div>
+		</div>
 	);
 }

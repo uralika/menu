@@ -5,11 +5,11 @@ import { MENU } from "../kitchen";
 
 class BreakfastStudio extends React.Component {
 	constructor(props) {
-		super(props)
+		super(props);
 
 		this.state = {
 			foods: MENU,
-			checkout: 0,
+			checkoutItems: 0,
 			filter: 'Food Groups',
 			search: ''
 		}
@@ -17,6 +17,8 @@ class BreakfastStudio extends React.Component {
 		this.handleFilterSelect = this.handleFilterSelect.bind(this);
 		this.filter = this.filter.bind(this);
 		this.handleSearch = this.handleSearch.bind(this);
+		this.handleAddItem = this.handleAddItem.bind(this);
+		this.handleRemoveItem = this.handleRemoveItem.bind(this);
 	}
 
 	handleFilterSelect(event) {
@@ -25,6 +27,22 @@ class BreakfastStudio extends React.Component {
 
 	handleSearch(event) {
 		this.setState({search: event.target.value})
+	}
+
+	handleAddItem(event) {
+		event.preventDefault();
+
+		event.target.closest('button').classList.add("hidden");
+		event.target.closest('button').nextSibling.classList.remove("hidden");
+		this.setState({checkoutItems: this.state.checkoutItems + 1})
+	}
+
+	handleRemoveItem(event) {
+		event.preventDefault();
+
+		event.target.closest('button').classList.add("hidden");
+		event.target.closest('button').previousSibling.classList.remove("hidden");
+		this.setState({checkoutItems: this.state.checkoutItems - 1})
 	}
 
 	filter(food) {
@@ -79,12 +97,18 @@ class BreakfastStudio extends React.Component {
 						handleFilterSelect={ this.handleFilterSelect }
 						selectedValue={this.state.filter}
 						handleSearch={ this.handleSearch }
+						itemsCount={ this.state.checkoutItems }
 					/>
-					<Foods foods={ this.filter(this.state.foods) } />
+					<Foods
+						foods={ this.filter(this.state.foods) }
+						handleAddItem= { this.handleAddItem }
+						handleRemoveItem= { this.handleRemoveItem }
+					/>
 					<Nav
 						handleFilterSelect={ this.handleFilterSelect }
 						selectedValue={ this.state.filter }
 						handleSearch={ this.handleSearch }
+						itemsCount={ this.state.checkoutItems }
 					/>
 				</div>
 			</div>
