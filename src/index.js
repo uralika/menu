@@ -5,7 +5,7 @@ import BreakfastStudio from "./components/BreakfastStudio";
 import "./App.css";
 
 function App() {
-  return <BreakfastStudio />;
+	return <BreakfastStudio />;
 }
 
 const rootElement = document.getElementById("root");
