@@ -1,7 +1,7 @@
 import React from 'react';
 import Foods from "./Foods";
 import Nav from "./Nav";
-import {MENU} from "../kitchen";
+import { MENU } from "../kitchen";
 
 class BreakfastStudio extends React.Component {
 	constructor(props) {
